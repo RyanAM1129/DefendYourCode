@@ -6,6 +6,7 @@ import controller.NameValidator;
 import controller.PasswordSecurity;
 import model.Name;
 
+import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -29,6 +30,17 @@ public class Main {
             }
         }
         valPassword();
+
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream("filename.txt"), "utf-8"))) {
+            writer.write("something");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static Name getName() {
