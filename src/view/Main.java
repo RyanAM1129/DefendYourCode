@@ -7,6 +7,8 @@ import controller.PasswordSecurity;
 import model.Name;
 
 import java.io.*;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -15,8 +17,11 @@ public class Main {
         final Name myName = getName();
         final int myInteger1 = getInteger();
         final int myInteger2 = getInteger();
-        String myInput;
-        String myOutput;
+        final long mySum = myInteger1 + myInteger2;
+        final long myProduct = myInteger1 * myInteger2;
+        String myInput = "";    //Needs to be initialized to resolve error
+        String myOutput = "";   //Needs to be initialized to resolve error
+        final ArrayList<String> myInputFileContents = new ArrayList<>();
         boolean mismatch = false;
         while (!mismatch) {
             String input = getFileName();
@@ -29,11 +34,33 @@ public class Main {
                 System.out.println("The file names should be different");
             }
         }
-        valPassword();
+//        valPassword();
 
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream("filename.txt"), "utf-8"))) {
-            writer.write("something");
+        try (FileReader myFileReader = new FileReader(myInput);
+             BufferedReader myBuffReader = new BufferedReader(myFileReader)) {
+            String myCurrentLine = myBuffReader.readLine();
+            while(myCurrentLine != null) {
+                myInputFileContents.add(myCurrentLine);
+                myCurrentLine = myBuffReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (Writer myBuffWriter = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(myOutput), "utf-8"))) {
+            myBuffWriter.write("First Name: ");
+            myBuffWriter.write(myName.getFirstName() + "\n");
+            myBuffWriter.write("Last Name: ");
+            myBuffWriter.write(myName.getLastName() + "\n");
+            myBuffWriter.write(myInteger1 + " + " + myInteger2 +
+                    " = " + mySum + "\n");
+            myBuffWriter.write(myInteger1 + " * " + myInteger2 +
+                    " = " + myProduct + "\n");
+            myBuffWriter.write("Input File Contents:\n");
+            for(String myLine : myInputFileContents){
+                myBuffWriter.write(myLine + "\n");
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {

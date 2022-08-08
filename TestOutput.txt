@@ -1,0 +1,9 @@
+First Name: Ryan
+Last Name: MacLeod
+10 + 5 = 15
+10 * 5 = 50
+Input File Contents:
+This
+Is
+A
+Test
