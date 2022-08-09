@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class FileUtils {
     public static void writeToFile(String s) throws FileNotFoundException {
-        File file = new File("C:\\Users\\bluet\\IdeaProjects\\DefendYourCode\\secret.txt");
+        File file = new File("secret.txt");
         FileWriter fr = null;
 
         try {
@@ -20,7 +20,7 @@ public class FileUtils {
     public static String getSalt() {
         String salt = "";
         try {
-            File myFile = new File("C:\\Users\\bluet\\IdeaProjects\\DefendYourCode\\secret.txt");
+            File myFile = new File("secret.txt");
             Scanner reader = new Scanner(myFile);
             if(reader.hasNextLine()) {
                 salt = reader.nextLine();
@@ -34,7 +34,7 @@ public class FileUtils {
     public static String getHash() {
         String hash = "";
         try {
-            File myFile = new File("C:\\Users\\bluet\\IdeaProjects\\DefendYourCode\\secret.txt");
+            File myFile = new File("secret.txt");
             Scanner reader = new Scanner(myFile);
             if(reader.hasNextLine()) {
                 reader.nextLine();

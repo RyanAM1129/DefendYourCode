@@ -17,14 +17,19 @@ public class Main {
         final Name myName = getName();
         final int myInteger1 = getInteger();
         final int myInteger2 = getInteger();
-        final long mySum = myInteger1 + myInteger2;
-        final long myProduct = myInteger1 * myInteger2;
+        final long mySum = (long) myInteger1 + (long) myInteger2;
+        final long myProduct = (long) myInteger1 * (long) myInteger2;
+        final String[] myInputFileContents;
         String myInput = "";    //Needs to be initialized to resolve error
         String myOutput = "";   //Needs to be initialized to resolve error
-        final ArrayList<String> myInputFileContents = new ArrayList<>();
         boolean mismatch = false;
         while (!mismatch) {
+            System.out.println("Please enter the name of an Input file (must "
+                    + "end in '.txt') and pathway if file is outside of source folder: ");
             String input = getFileName();
+            System.out.println("Please enter the name of an Output file (must "
+                    + "end in '.txt'): and pathway if you want to save"
+                    + " outside of source folder: ");
             String output = getFileName();
             if (!input.equals(output)) {
                 mismatch = true;
@@ -34,18 +39,8 @@ public class Main {
                 System.out.println("The file names should be different");
             }
         }
-//        valPassword();
-
-        try (FileReader myFileReader = new FileReader(myInput);
-             BufferedReader myBuffReader = new BufferedReader(myFileReader)) {
-            String myCurrentLine = myBuffReader.readLine();
-            while(myCurrentLine != null) {
-                myInputFileContents.add(myCurrentLine);
-                myCurrentLine = myBuffReader.readLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        valPassword();
+        myInputFileContents = readFile(myInput);
 
         try (Writer myBuffWriter = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(myOutput), "utf-8"))) {
@@ -53,9 +48,9 @@ public class Main {
             myBuffWriter.write(myName.getFirstName() + "\n");
             myBuffWriter.write("Last Name: ");
             myBuffWriter.write(myName.getLastName() + "\n");
-            myBuffWriter.write(myInteger1 + " + " + myInteger2 +
+            myBuffWriter.write("Sum: " + myInteger1 + " + " + myInteger2 +
                     " = " + mySum + "\n");
-            myBuffWriter.write(myInteger1 + " * " + myInteger2 +
+            myBuffWriter.write("Product: " + myInteger1 + " * " + myInteger2 +
                     " = " + myProduct + "\n");
             myBuffWriter.write("Input File Contents:\n");
             for(String myLine : myInputFileContents){
@@ -111,9 +106,6 @@ public class Main {
 
     private static String getFileName() {
         Scanner keyboard = new Scanner(System.in);
-        System.out.println("Please enter a file name, for an input file "
-                + "and an output file. The file must end with '.txt' and must contain "
-                + "only letter and numbers in prefix");
         String myFile = keyboard.nextLine();
         while (!FileValidator.validateFile(myFile)) {
             System.out.println("The File name was invalid, please have a-z or 0-9 and end with .txt");
@@ -141,6 +133,21 @@ public class Main {
             System.out.println("Passwords do not match... try again:");
             veriPass = keyboard.nextLine();
         }
+    }
+
+    private static String[] readFile(final String theFileName) {
+        final ArrayList<String> myInputFileContents = new ArrayList<>();
+        try (FileReader myFileReader = new FileReader(theFileName);
+             BufferedReader myBuffReader = new BufferedReader(myFileReader)) {
+            String myCurrentLine = myBuffReader.readLine();
+            while(myCurrentLine != null) {
+                myInputFileContents.add(myCurrentLine);
+                myCurrentLine = myBuffReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return myInputFileContents.toArray(new String[0]);
     }
 
 }

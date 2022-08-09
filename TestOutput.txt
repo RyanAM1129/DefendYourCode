@@ -1,7 +1,7 @@
 First Name: Ryan
 Last Name: MacLeod
-10 + 5 = 15
-10 * 5 = 50
+Sum: 2147483647 + 2147483647 = 4294967294
+Product: 2147483647 * 2147483647 = 4611686014132420609
 Input File Contents:
 This
 Is
